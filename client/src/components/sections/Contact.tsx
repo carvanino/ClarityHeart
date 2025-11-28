@@ -13,17 +13,43 @@ export function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      firstName: formData.get("firstName") as string,
+      lastName: formData.get("lastName") as string,
+      email: formData.get("email") as string,
+      message: formData.get("message") as string,
+    };
 
-    toast({
-      title: "Message Sent",
-      description: "Thank you for reaching out. Dr. Loveday will get back to you shortly.",
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    // Reset form (optional, but good UX)
-    (e.target as HTMLFormElement).reset();
-    setIsSubmitting(false);
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      toast({
+        title: "Message Sent",
+        description: "Thank you for reaching out. Dr. Loveday will get back to you shortly.",
+      });
+
+      // Reset form
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or contact directly via email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -68,22 +94,22 @@ export function Contact() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">First Name</label>
-                  <Input required placeholder="Jane" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                  <Input required name="firstName" placeholder="Jane" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Last Name</label>
-                  <Input required placeholder="Doe" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                  <Input required name="lastName" placeholder="Doe" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Email</label>
-                <Input required type="email" placeholder="jane@example.com" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input required name="email" type="email" placeholder="jane@example.com" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Message</label>
-                <Textarea required placeholder="Tell me a bit about what brings you here..." className="bg-white/10 border-white/20 text-white placeholder:text-white/40 min-h-[120px]" />
+                <Textarea required name="message" placeholder="Tell me a bit about what brings you here..." className="bg-white/10 border-white/20 text-white placeholder:text-white/40 min-h-[120px]" />
               </div>
               
               <Button 
