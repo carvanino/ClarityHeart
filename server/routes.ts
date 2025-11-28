@@ -21,8 +21,7 @@ export async function registerRoutes(
       
       // Send email via Resend
       try {
-        const { client } = await getUncachableResendClient();
-        const fromEmail = 'onboarding@resend.dev';
+        const { client, fromEmail } = await getUncachableResendClient();
         
         log(`Sending email from: ${fromEmail} to: akinolatofunmi04@gmail.com`);
         

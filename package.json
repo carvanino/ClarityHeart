@@ -4,14 +4,16 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev:client": "vite dev --port 5000",
-    "dev": "NODE_ENV=development tsx server/index.ts",
+    "dev:client": "vite dev --port 5050",
+    "dev": "NODE_ENV=development tsx -r dotenv/config server/index.ts",
     "build": "tsx script/build.ts",
-    "start": "NODE_ENV=production node dist/index.cjs",
+    "start": "NODE_ENV=production node -r dotenv/config dist/index.cjs",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "start:local": "NODE_ENV=production node -r dotenv/config dist/index.cjs"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@neondatabase/serverless": "^0.10.4",
@@ -97,7 +99,7 @@
     "esbuild": "^0.25.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.14",
-    "tsx": "^4.20.5",
+    "tsx": "^4.20.6",
     "typescript": "5.6.3",
     "vite": "^7.1.9"
   },
