@@ -19,7 +19,7 @@ export function Contact() {
                 <Mail className="mr-4 text-primary mt-1" size={20} />
                 <div>
                   <h4 className="font-medium mb-1">Email</h4>
-                  <p className="text-white/60">hello@drloveday.com</p>
+                  <p className="text-white/60">akinolatofunmi04@gmail.com</p>
                 </div>
               </div>
               
@@ -27,7 +27,7 @@ export function Contact() {
                 <Phone className="mr-4 text-primary mt-1" size={20} />
                 <div>
                   <h4 className="font-medium mb-1">Phone</h4>
-                  <p className="text-white/60">+1 (555) 123-4567</p>
+                  <p className="text-white/60">+234 812 260 3628</p>
                 </div>
               </div>
 
@@ -35,7 +35,7 @@ export function Contact() {
                 <MapPin className="mr-4 text-primary mt-1" size={20} />
                 <div>
                   <h4 className="font-medium mb-1">Office</h4>
-                  <p className="text-white/60">Virtual Sessions Available Worldwide<br/>In-Person: New York, NY</p>
+                  <p className="text-white/60">Virtual Sessions Available Worldwide<br/>In-Person: Lagos, Nigeria</p>
                 </div>
               </div>
             </div>

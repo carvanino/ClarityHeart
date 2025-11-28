@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import profileImg from "@assets/generated_images/professional_portrait_of_dr._loveday.png";
+import profileImg from "@assets/generated_images/professional_portrait_of_dr._loveday_based_on_user_photo.png";
 import { Badge } from "@/components/ui/badge";
 
 export function Bio() {
