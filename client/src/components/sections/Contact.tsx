@@ -1,9 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export function Contact() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    toast({
+      title: "Message Sent",
+      description: "Thank you for reaching out. Dr. Loveday will get back to you shortly.",
+    });
+
+    // Reset form (optional, but good UX)
+    (e.target as HTMLFormElement).reset();
+    setIsSubmitting(false);
+  };
+
   return (
     <footer id="contact" className="bg-foreground text-white pt-24 pb-12">
       <div className="container mx-auto px-6">
@@ -42,30 +64,41 @@ export function Contact() {
           </div>
 
           <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">First Name</label>
-                  <Input placeholder="Jane" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                  <Input required placeholder="Jane" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/80">Last Name</label>
-                  <Input placeholder="Doe" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                  <Input required placeholder="Doe" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Email</label>
-                <Input type="email" placeholder="jane@example.com" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+                <Input required type="email" placeholder="jane@example.com" className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
               </div>
               
               <div className="space-y-2">
                 <label className="text-sm font-medium text-white/80">Message</label>
-                <Textarea placeholder="Tell me a bit about what brings you here..." className="bg-white/10 border-white/20 text-white placeholder:text-white/40 min-h-[120px]" />
+                <Textarea required placeholder="Tell me a bit about what brings you here..." className="bg-white/10 border-white/20 text-white placeholder:text-white/40 min-h-[120px]" />
               </div>
               
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg">
-                Send Message
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message"
+                )}
               </Button>
             </form>
           </div>
