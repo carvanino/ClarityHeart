@@ -23,7 +23,9 @@ export async function registerRoutes(
       try {
         const { client, fromEmail } = await getUncachableResendClient();
         
-        await client.emails.send({
+        log(`Sending email from: ${fromEmail} to: akinolatofunmi04@gmail.com`);
+        
+        const emailResult = await client.emails.send({
           from: fromEmail,
           to: 'akinolatofunmi04@gmail.com',
           subject: `New Contact Form Message from ${validatedData.firstName} ${validatedData.lastName}`,
@@ -50,10 +52,16 @@ export async function registerRoutes(
           `,
         });
         
-        log("Email sent successfully via Resend");
-      } catch (emailError) {
+        log(`Resend response: ${JSON.stringify(emailResult)}`);
+        
+        if (emailResult.error) {
+          log(`Resend error: ${JSON.stringify(emailResult.error)}`, "error");
+        } else {
+          log(`Email sent successfully. ID: ${emailResult.data?.id}`);
+        }
+      } catch (emailError: any) {
         // Log email error but don't fail the request
-        log(`Email sending failed: ${emailError}`, "error");
+        log(`Email sending failed: ${emailError?.message || emailError}`, "error");
       }
       
       res.status(200).json({ 
